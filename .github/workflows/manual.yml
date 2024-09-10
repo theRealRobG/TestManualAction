@@ -1,3 +1,5 @@
+run-name: Tags ${{ inputs.tags }}
+
 on:
   workflow_dispatch:
     inputs:
