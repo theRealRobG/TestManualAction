@@ -25,15 +25,11 @@ jobs:
   print-version:
     runs-on: ubuntu-latest
     steps:
-      - name: Check version fits in 1.x
-        if: inputs.target == '1.x'
+      - name: Check minor has no decimals
+        run: ${{ !contains(fromJSON(inputs.minor), '.') }}
+      - name: Check patch has no decimals
+        run: ${{ !contains(fromJSON(inputs.patch), '.') }}
+      - name: Print version
         env:
-          minor: ${{ fromJSON(inputs.minor) }}
-          patch: ${{ fromJSON(inputs.patch) }}
-        run: echo  Version is 1.$minor.$patch
-      - name: Check vesrion fits in 2.x
-        if: inputs.target == '2.x'
-        env:
-          minor: ${{ fromJSON(inputs.minor) }}
-          patch: ${{ fromJSON(inputs.patch) }}
-        run: echo  Version is 2.$minor.$patch
+          version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
+        run: echo  Version is $version
