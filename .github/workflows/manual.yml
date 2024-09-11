@@ -43,4 +43,7 @@ jobs:
         env:
           branch: ${{ github.ref }}
           version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
-        run: echo  Version is $version and Branch is $branch
+        run: |
+          echo Version is $version
+          git branch
+          git status
