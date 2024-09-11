@@ -1,5 +1,5 @@
-name: Release
-run-name: Release ${{ inputs.version }}
+name: Generate Release
+run-name: Generate Release ${{ inputs.version }}
 
 on:
   workflow_dispatch:
