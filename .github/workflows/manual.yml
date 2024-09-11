@@ -1,4 +1,5 @@
-run-name: Tags ${{ inputs.tags }}
+name: Release
+run-name: Release ${{ inputs.tags }}
 
 on:
   workflow_dispatch:
