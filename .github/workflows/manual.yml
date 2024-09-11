@@ -5,17 +5,21 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: 'Release base'
+        description: 'Major base'
         required: true
         default: '1.x'
         type: choice
         options:
           - 1.x
           - 2.x
-      version:
-        description: 'Release version'
+      minor:
+        description: 'Minor version'
         required: true
-        type: string
+        type: number
+      patch:
+        description: 'Patch version'
+        required: true
+        type: number
 
 jobs:
   print-version:
@@ -23,7 +27,13 @@ jobs:
     steps:
       - name: Check version fits in 1.x
         if: inputs.target == '1.x'
-        run: echo  Need to check if ${{ inputs.version }} is in 1.x
+        env:
+          minor: ${{ fromJSON(inputs.minor) }}
+          patch: ${{ fromJSON(inputs.patch) }}
+        run: echo  Version is 1.$minor.$patch
       - name: Check vesrion fits in 2.x
         if: inputs.target == '2.x'
-        run: echo  Need to check if ${{ inputs.version }} is in 2.x
+        env:
+          minor: ${{ fromJSON(inputs.minor) }}
+          patch: ${{ fromJSON(inputs.patch) }}
+        run: echo  Version is 2.$minor.$patch
