@@ -21,5 +21,9 @@ jobs:
   print-version:
     runs-on: ubuntu-latest
     steps:
-      - name: Print version
-        run: echo  The version is ${{ inputs.version }}
+      - name: Check version fits in 1.x
+        if: inputs.target == '1.x'
+        run: echo  Need to check if ${{ inputs.version }} is in 1.x
+      - name: Check vesrion fits in 2.x
+        if: inputs.target == '2.x'
+        run: echo  Need to check if ${{ inputs.version }} is in 2.x
