@@ -29,7 +29,18 @@ jobs:
         run: ${{ !contains(fromJSON(inputs.minor), '.') }}
       - name: Check patch has no decimals
         run: ${{ !contains(fromJSON(inputs.patch), '.') }}
+      - name: Checkout develop
+        if: inputs.major == '2'
+        uses: actions/checkout@v4
+        with:
+          ref: 'develop'
+      - name: Checkout develop_1.x
+        if: inputs.major == '1'
+        uses: actions/checkout@v4
+        with:
+          ref: 'develop_1.x'
       - name: Print version
         env:
+          branch: ${{ github.ref }}
           version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
-        run: echo  Version is $version
+        run: echo  Version is $version and Branch is $branch
