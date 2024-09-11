@@ -1,17 +1,17 @@
 name: Generate Release
-run-name: Generate Release ${{ inputs.version }}
+run-name: Generate Release ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
 
 on:
   workflow_dispatch:
     inputs:
-      target:
-        description: 'Major base'
+      major:
+        description: 'Major version'
         required: true
-        default: '1.x'
+        default: '1'
         type: choice
         options:
-          - 1.x
-          - 2.x
+          - '1'
+          - '2'
       minor:
         description: 'Minor version'
         required: true
