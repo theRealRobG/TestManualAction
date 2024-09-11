@@ -39,10 +39,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: 'develop_1.x'
-      - name: Print version
+      - name: Push release branch
         env:
           version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
         run: |
-          echo Version is $version
-          git branch
-          git status
+          git checkout -b release/$version
+          git push --set-upstream origin release/$version
