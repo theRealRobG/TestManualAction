@@ -41,7 +41,6 @@ jobs:
           ref: 'develop_1.x'
       - name: Print version
         env:
-          branch: ${{ github.ref }}
           version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
         run: |
           echo Version is $version
