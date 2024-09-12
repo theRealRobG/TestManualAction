@@ -24,6 +24,8 @@ on:
 jobs:
   print-version:
     runs-on: ubuntu-latest
+    env:
+      version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
     steps:
       - name: Check minor has no decimals
         run: ${{ !contains(fromJSON(inputs.minor), '.') }}
@@ -40,8 +42,6 @@ jobs:
         with:
           ref: 'develop_1.x'
       - name: Push release branch
-        env:
-          version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
         run: |
           git checkout -b release/$version
           git push --set-upstream origin release/$version
