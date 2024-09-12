@@ -24,24 +24,34 @@ on:
 jobs:
   print-version:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     env:
       version: ${{ fromJSON(inputs.major) }}.${{ fromJSON(inputs.minor) }}.${{ fromJSON(inputs.patch) }}
+      branch: ${{ inputs.major == 2 && 'develop' || 'develop_1.x' }}
+      target: ${{ inputs.major == 2 && 'main' || 'main_1.x' }}
     steps:
       - name: Check minor has no decimals
         run: ${{ !contains(fromJSON(inputs.minor), '.') }}
+        
       - name: Check patch has no decimals
         run: ${{ !contains(fromJSON(inputs.patch), '.') }}
-      - name: Checkout develop
-        if: inputs.major == '2'
+
+      - name: Checkout $branch
         uses: actions/checkout@v4
         with:
-          ref: 'develop'
-      - name: Checkout develop_1.x
-        if: inputs.major == '1'
-        uses: actions/checkout@v4
-        with:
-          ref: 'develop_1.x'
-      - name: Push release branch
+          ref: $branch
+      
+      - name: Update version in txt file
         run: |
-          git checkout -b release/$version
-          git push --set-upstream origin release/$version
+          rm ./mambaSharedFramework/Resources/version.txt
+          echo $version > ./mambaSharedFramework/Resources/version.txt
+          git diff
+        
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: Bump version to $version
+          branch: release/$version
+          base: $taget
