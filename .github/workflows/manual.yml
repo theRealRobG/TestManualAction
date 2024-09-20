@@ -22,7 +22,7 @@ on:
         type: number
 
 jobs:
-  print-version:
+  bump-version-and-raise-pr:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -44,13 +44,13 @@ jobs:
           ref: ${{ env.branch }}
       
       - name: Update version in txt file
-        run: |
-          rm ./mambaSharedFramework/Resources/version.txt
-          echo $version > ./mambaSharedFramework/Resources/version.txt
-          git diff
+        run: sed -i "s/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/$version/" ./mambaSharedFramework/Resources/version.txt
 
-      - name: Update version in xcodeproj
+      - name: Update version in xcodeproj file
         run: sed -i "s/MARKETING_VERSION = [0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\};/MARKETING_VERSION = $version;/" ./mamba.xcodeproj/project.pbxproj
+
+      - name: Update version in podspec file
+        run: sed -i "s/= \"[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\"/= \"$version\"/" ./mamba.podspec
         
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
