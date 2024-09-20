@@ -44,11 +44,10 @@ jobs:
           ref: ${{ env.branch }}
           fetch-depth: 0
 
-      - name: Check tag does not exist
+      - name: Ensure tag does not exist
         run: |
           if git show-ref --tags --verify --quiet "refs/tags/$version"; then
-            echo "Tag $version exists"
-            exit 1
+            echo "Tag $version exists" && exit 1
           else
             echo "Tag $version does not exist"
           fi
