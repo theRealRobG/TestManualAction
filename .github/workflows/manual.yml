@@ -51,6 +51,14 @@ jobs:
           else
             echo "Tag $version does not exist"
           fi
+
+      - name: Ensure branch does not exist
+        run: |
+          if git show-ref --verify --quiet "refs/remotes/origin/release/$version"; then
+            echo "::error::Release branch release/$version exists" && exit 1
+          else
+            echo "Release branch release/$version does not exist"
+          fi
       
       - name: Update version in txt file
         run: sed -i "s/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/$version/" ./mambaSharedFramework/Resources/version.txt
