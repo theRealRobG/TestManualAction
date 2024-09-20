@@ -48,6 +48,9 @@ jobs:
           rm ./mambaSharedFramework/Resources/version.txt
           echo $version > ./mambaSharedFramework/Resources/version.txt
           git diff
+
+      - name: Update version in xcodeproj
+        run: sed -i '' "s/MARKETING_VERSION = [0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\};/MARKETING_VERSION = $version;/" ./mamba.xcodeproj/project.pbxproj
         
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
