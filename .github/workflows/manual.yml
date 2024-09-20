@@ -46,7 +46,7 @@ jobs:
 
       - name: Check tag does not exist
         run: |
-          if git show-ref --tags --verify --quiet "refs/tags/$version"; then
+          if git show-ref --tags | grep "refs/tags/$version"; then
             echo "Tag $version exists"
             exit 1
           else
