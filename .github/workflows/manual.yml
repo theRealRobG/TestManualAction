@@ -47,7 +47,7 @@ jobs:
       - name: Ensure tag does not exist
         run: |
           if git show-ref --tags --verify --quiet "refs/tags/$version"; then
-            echo "Tag $version exists" && exit 1
+            echo "::error::Tag $version exists"
           else
             echo "Tag $version does not exist"
           fi
