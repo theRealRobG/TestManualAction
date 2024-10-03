@@ -12,6 +12,8 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - id: version
         run: echo "version=`cat ./mambaSharedFramework/Resources/version.txt`" >> "$GITHUB_OUTPUT"
 
