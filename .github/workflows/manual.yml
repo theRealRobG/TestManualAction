@@ -61,7 +61,7 @@ jobs:
           fi
 
       - name: Merge in ${{ env.branch }}
-        run: git merge ${{ env.branch }}
+        run: git merge origin/${{ env.branch }}
       
       - name: Update version in txt file
         run: sed -i "s/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/$version/" ./mambaSharedFramework/Resources/version.txt
